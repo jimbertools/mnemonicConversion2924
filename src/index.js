@@ -1,4 +1,4 @@
-import JSBI from './jsbi.mjs';
+import JSBI from 'jsbi';
 
 function getEntropyFromPhrase(phrase) {
     console.log('Got phrase: ', phrase)

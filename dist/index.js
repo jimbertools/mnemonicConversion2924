@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getEntropyFromPhrase = getEntropyFromPhrase;
 
-var _jsbi = _interopRequireDefault(require("./jsbi.mjs"));
+var _jsbi = _interopRequireDefault(require("jsbi"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getEntropyFromPhrase(phrase) {
   console.log('Got phrase: ', phrase);
@@ -16,11 +16,11 @@ function getEntropyFromPhrase(phrase) {
 }
 
 function phraseToInt(phrase) {
-  var base = _jsbi.default.BigInt(WORDS.length);
+  var base = _jsbi["default"].BigInt(WORDS.length);
 
-  var exp = _jsbi.default.BigInt(1);
+  var exp = _jsbi["default"].BigInt(1);
 
-  var result = _jsbi.default.BigInt(-1);
+  var result = _jsbi["default"].BigInt(-1);
 
   var found = false;
   var _iteratorNormalCompletion = true;
@@ -32,13 +32,13 @@ function phraseToInt(phrase) {
       var word = _step.value;
       var prefix = word.substring(0, UNIQUE_PREFIX_LENGTH);
 
-      var index = _jsbi.default.BigInt(0);
+      var index = _jsbi["default"].BigInt(0);
 
       for (var i = 0; i < WORDS.length; i++) {
         var entropyWord = WORDS[i];
 
         if (entropyWord.startsWith(prefix)) {
-          index = _jsbi.default.BigInt(i);
+          index = _jsbi["default"].BigInt(i);
           found = true;
           break;
         }
@@ -48,18 +48,18 @@ function phraseToInt(phrase) {
         return;
       }
 
-      index = _jsbi.default.add(index, _jsbi.default.BigInt(1));
-      index = _jsbi.default.multiply(index, exp);
-      exp = _jsbi.default.multiply(exp, base);
-      result = _jsbi.default.add(result, index);
+      index = _jsbi["default"].add(index, _jsbi["default"].BigInt(1));
+      index = _jsbi["default"].multiply(index, exp);
+      exp = _jsbi["default"].multiply(exp, base);
+      result = _jsbi["default"].add(result, index);
     }
   } catch (err) {
     _didIteratorError = true;
     _iteratorError = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
       }
     } finally {
       if (_didIteratorError) {
@@ -72,18 +72,18 @@ function phraseToInt(phrase) {
 }
 
 function intToBytes(entropy) {
-  entropy = _jsbi.default.BigInt(entropy);
+  entropy = _jsbi["default"].BigInt(entropy);
 
-  var base = _jsbi.default.BigInt(256);
+  var base = _jsbi["default"].BigInt(256);
 
   var bs = [];
 
-  while (_jsbi.default.subtract(entropy, base) >= 0) {
-    var i = _jsbi.default.BigInt(_jsbi.default.remainder(entropy, base));
+  while (_jsbi["default"].subtract(entropy, base) >= 0) {
+    var i = _jsbi["default"].BigInt(_jsbi["default"].remainder(entropy, base));
 
-    bs.push(_jsbi.default.toNumber(i));
-    entropy = _jsbi.default.subtract(entropy, base);
-    entropy = _jsbi.default.divide(entropy, base);
+    bs.push(_jsbi["default"].toNumber(i));
+    entropy = _jsbi["default"].subtract(entropy, base);
+    entropy = _jsbi["default"].divide(entropy, base);
   }
 
   return bs;

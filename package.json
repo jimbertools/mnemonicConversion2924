@@ -4,5 +4,8 @@
   "description": "Converts a 29 word seedphrase to a 24 words seedphrase",
   "main": "./dist/index.js",
   "author": "Jimber",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jsbi": "^3.1.1"
+  }
 }
