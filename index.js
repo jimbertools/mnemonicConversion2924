@@ -1,23 +1,26 @@
-module.exports.getEntropyFromPhrase = (phrase) => {
+import JSBI from './jsbi.mjs';
+
+function getEntropyFromPhrase(phrase) {
+    console.log('Got phrase: ', phrase)
     var entropy = phraseToInt(phrase)
     return intToBytes(entropy).slice(0, 32)
 }
 
 function phraseToInt(phrase) {
-    var base = Number(WORDS.length)
-    var exp = Number(1)
-    var result = Number(-1)
+    var base = JSBI.BigInt(WORDS.length)
+    var exp = JSBI.BigInt(1)
+    var result = JSBI.BigInt(-1)
     var found = false
 
     for (var word of phrase) {
         var prefix = word.substring(0, UNIQUE_PREFIX_LENGTH)
-        var index = Number(0)
+        var index = JSBI.BigInt(0)
 
         for (var i = 0; i < WORDS.length; i++) {
             var entropyWord = WORDS[i]
 
             if (entropyWord.startsWith(prefix)) {
-                index = Number(i)
+                index = JSBI.BigInt(i)
                 found = true
                 break
             }
@@ -27,25 +30,26 @@ function phraseToInt(phrase) {
             return
         }
 
-        index = index + Number(1)
-        index = index * exp
-        exp = exp * base
-        result = result + index
+        index = JSBI.add(index, JSBI.BigInt(1))
+        index = JSBI.multiply(index, exp)
+        exp = JSBI.multiply(exp, base)
+        result = JSBI.add(result,index)
     }
 
     return result;
 }
 
 function intToBytes(entropy) {
-    var base = Number(256)
+    entropy = JSBI.BigInt(entropy)
+    var base = JSBI.BigInt(256)
     var bs = []
 
-    while ((entropy - base) >= 0) {
-        var i = Number(entropy % base)
-        bs.push(Number(i))
+    while ((JSBI.subtract(entropy, base)) >= 0) {
+        var i = JSBI.BigInt(JSBI.remainder(entropy, base))
+        bs.push(JSBI.toNumber(i))
 
-        entropy = entropy - base
-        entropy = entropy / base
+        entropy = JSBI.subtract(entropy, base)
+        entropy = JSBI.divide(entropy, base)
     }
 
     return bs
@@ -1679,3 +1683,5 @@ const WORDS = ["abbey",
     "zombie",
     "zones",
     "zoom"]
+
+export { getEntropyFromPhrase };
