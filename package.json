@@ -1,0 +1,8 @@
+{
+  "name": "mnemonicconversion2924",
+  "version": "1.0.3",
+  "description": "Converts a 29 word seedphrase to a 24 words seedphrase",
+  "main": "index.js",
+  "author": "Jimber",
+  "license": "ISC"
+}
