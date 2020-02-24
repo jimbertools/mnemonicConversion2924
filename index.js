@@ -4,20 +4,20 @@ module.exports.getEntropyFromPhrase = (phrase) => {
 }
 
 function phraseToInt(phrase) {
-    var base = BigInt(WORDS.length)
-    var exp = BigInt(1)
-    var result = BigInt(-1)
+    var base = Number(WORDS.length)
+    var exp = Number(1)
+    var result = Number(-1)
     var found = false
 
     for (var word of phrase) {
         var prefix = word.substring(0, UNIQUE_PREFIX_LENGTH)
-        var index = BigInt(0)
+        var index = Number(0)
 
         for (var i = 0; i < WORDS.length; i++) {
             var entropyWord = WORDS[i]
 
             if (entropyWord.startsWith(prefix)) {
-                index = BigInt(i)
+                index = Number(i)
                 found = true
                 break
             }
@@ -27,7 +27,7 @@ function phraseToInt(phrase) {
             return
         }
 
-        index = index + BigInt(1)
+        index = index + Number(1)
         index = index * exp
         exp = exp * base
         result = result + index
@@ -37,11 +37,11 @@ function phraseToInt(phrase) {
 }
 
 function intToBytes(entropy) {
-    var base = BigInt(256)
+    var base = Number(256)
     var bs = []
 
     while ((entropy - base) >= 0) {
-        var i = BigInt(entropy % base)
+        var i = Number(entropy % base)
         bs.push(Number(i))
 
         entropy = entropy - base
